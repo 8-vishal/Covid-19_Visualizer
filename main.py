@@ -20,15 +20,15 @@ def coronaCases(x, t):
     return [dsdt, dedt, didt, drdt]
 
 
-def Initial_data(Population, Infected, Recovered, Deceased):
-    suspectibles = Population - (Recovered + Deceased)
+def Initial_data(Infected, Recovered, Deceased):
+    suspectibles = (beta/gama)*Infected
     expected = sigma * beta * suspectibles / sigma * gama
     return [suspectibles, expected, Infected, Recovered]
 
 
 t = numpy.linspace(0, 90, 90)  # Plotting for 90 days starting from today
 
-x = odeint(coronaCases, Initial_data(36000000, Infected("Todays_data.csv", "KL"), 270, 2), t)
+x = odeint(coronaCases, Initial_data(Infected("Todays_data.csv", "KL"), 270, 2), t)
 S = x[:, 0]
 E = x[:, 1]
 I = x[:, 2]
